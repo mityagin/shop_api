@@ -47,6 +47,27 @@ url:
     "name": "iMac"
 }
 ```
+
+возможно множество категорий
+
+```json
+{
+    "sku": "fff1234567890123456",
+    "cost": 100,
+    "type": [
+        {
+            "typeUid": 1,
+            "typeName": "computer"
+        },
+        {
+            "typeUid": 2,
+            "typeName": "mono"
+        }
+    ],
+    "name": "iMac"
+}
+```
+
 возвращает UID
 
 ### Получение каталога товаров
