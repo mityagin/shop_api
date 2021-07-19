@@ -1,6 +1,7 @@
 from copy import deepcopy
 
-from django.shortcuts import render
+from django.core.exceptions import ValidationError
+from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ProductSerializer
@@ -53,16 +54,22 @@ class CreateProductView(APIView):
 class DeleteUIDProductView(APIView):
 
     def delete(self, request, uid):
-        product = Product.objects.get(uid=uid)
-        product.delete()
+        try:
+            product = get_object_or_404(Product, uid=uid)
+            product.delete()
+        except ValidationError as err:
+            return Response(status=400, data=err)
         return Response(status=200, data=f'{uid} deleted')
 
 
 class DeleteSKUProductView(APIView):
 
     def delete(self, request, sku):
-        product = Product.objects.get(sku=sku)
-        product.delete()
+        try:
+            product = get_object_or_404(Product, sku=sku)
+            product.delete()
+        except ValidationError as err:
+            return Response(status=400, data=err)
         return Response(status=200, data=f'{sku} deleted')
 
 
@@ -90,4 +97,28 @@ class ProductPartialView(APIView):
         product = Product.objects.all()[begin-1 if begin != 0 else 0:end]
         serializer = ProductSerializer(product, many=True)
         return Response(status=200, data=serializer.data)
+
+
+class ProductSingleUIDView(APIView):
+
+    def get(self, request, uid):
+        try:
+            product = get_object_or_404(Product, uid=uid)
+        except ValidationError as err:
+            return Response(status=400, data=err)
+        serializer = ProductSerializer(product, many=False)
+        return Response(status=200, data=serializer.data)
+
+
+class ProductSingleSKUView(APIView):
+
+    def get(self, request, sku):
+        try:
+            product = get_object_or_404(Product, sku=sku)
+        except ValidationError as err:
+            return Response(status=400, data=err)
+        serializer = ProductSerializer(product, many=False)
+        return Response(status=200, data=serializer.data)
+
+
 
