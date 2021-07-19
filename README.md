@@ -146,3 +146,130 @@ url:
 
 Удаляет товар, если sku существует
 
+### Обновление товаров
+
+- Обновить определенный товар по UID
+
+url:
+
+`http://0.0.0.0:8000/api/product/update/uid/<uid>`
+
+метод PATCH
+
+где `<uid>` — uid товара
+
+форматы json:
+
+```json
+{
+    "type": [
+        {
+            "typeUid": 10,
+            "typeName": "computers10"
+        },
+        {
+            "typeUid": 12,
+            "typeName": "aa"
+        }
+    ],
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "type": [
+        {
+            "typeUid": 10,
+            "typeName": "computers10"
+        }
+    ],
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+и другие...
+
+Обновляет товар, если uid существует
+
+- Обновить определенный товар по SKU
+
+url:
+
+`http://0.0.0.0:8000/api/product/update/sku/<sku>`
+
+метод PATCH
+
+где `<sku>` — sku товара
+
+форматы json:
+
+```json
+{
+    "type": [
+        {
+            "typeUid": 10,
+            "typeName": "computers10"
+        },
+        {
+            "typeUid": 12,
+            "typeName": "aa"
+        }
+    ],
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "type": [
+        {
+            "typeUid": 10,
+            "typeName": "computers10"
+        }
+    ],
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "sku": "fff1234567890123777810",
+    "name": "appleggg",
+    "cost": "77710.00"
+}
+```
+
+```json
+{
+    "name": "appleggg",
+    "uid": "857d2b80-d0b1-4bc5-9cfd-b5865f179cec"
+}
+```
+
+и другие...
+
+Обновляет товар, если sku существует

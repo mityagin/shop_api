@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import ProductSerializer
 from .models import Product, ProductType
+from .managers import UpdateProductManager
 
 
 class CreateProductView(APIView):
@@ -73,13 +74,29 @@ class DeleteSKUProductView(APIView):
         return Response(status=200, data=f'{sku} deleted')
 
 
-class UpdateProductView(APIView):
+class UpdateUIDProductView(APIView):
 
     def patch(self, request, uid):
-        serializer = ProductSerializer(data=request.data, partial=True)
-        if serializer.is_valid(raise_exception=True):
-            product = serializer.update(serializer.data, uid)
-            return Response(status=200, data=f'updated: {product.uid}')
+        try:
+            product = get_object_or_404(Product, uid=uid)
+            response = UpdateProductManager.make_bd_objects(request, product)
+            if response:
+                return response
+        except ValidationError as err:
+            return Response(status=400, data=err)
+        return Response(status=400)
+
+
+class UpdateSKUProductView(APIView):
+
+    def patch(self, request, sku):
+
+        product = get_object_or_404(Product, sku=sku)
+        if 'uid' in request.data:
+            request.data.pop('uid')
+        response = UpdateProductManager.make_bd_objects(request, product)
+        if response:
+            return response
         return Response(status=400)
 
 
